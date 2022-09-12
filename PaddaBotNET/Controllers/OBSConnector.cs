@@ -1,24 +1,31 @@
 ﻿using System;
+using System.Configuration;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using OBS.WebSocket.NET;
+
 namespace PaddaBotNET.Controllers 
 {
     internal class OBSConnector 
     {
-        private string port = "";
         private ObsWebSocket obs;
+        private readonly NameValueCollection config = ConfigurationManager.AppSettings;
         public Task Init() 
         {
             obs = new ObsWebSocket();
             try 
             {
-                obs.Connect($"ws://127.0.0.1:{port}", "");
+                obs.Connect
+                (
+                    url: $"{config.Get("WebSocketIP")}:{config.Get("WebSocketPort")}",
+                    password:""
+                );
                 return Task.CompletedTask;
             } 
-            catch (Exception ex) 
+            catch (Exception exception) 
             {
-                Console.WriteLine(ex.Message);
-                return Task.FromException(ex);
+                Console.WriteLine(exception.Message);
+                return Task.FromException(exception);
             }
         }
         public void Disconnect() => obs?.Disconnect();
