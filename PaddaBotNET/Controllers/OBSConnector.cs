@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using OBS.WebSocket.NET;
+
 namespace PaddaBotNET.Controllers 
 {
     internal class OBSConnector 
@@ -14,7 +15,11 @@ namespace PaddaBotNET.Controllers
             obs = new ObsWebSocket();
             try 
             {
-                obs.Connect($"{config.Get("WebSocketIP")}:{config.Get("WebSocketPort")}", "");
+                obs.Connect
+                (
+                    url: $"{config.Get("WebSocketIP")}:{config.Get("WebSocketPort")}",
+                    password:""
+                );
                 return Task.CompletedTask;
             } 
             catch (Exception exception) 

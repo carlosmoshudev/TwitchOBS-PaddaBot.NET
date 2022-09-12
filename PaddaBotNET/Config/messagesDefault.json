@@ -1,6 +1,6 @@
 {
-    "OnChannelConnect":"",
-    "OnPrimeSubscription":"",
-    "OnSubscription":"",
-    "OnRaid":""
+    "ChannelConnect": "",
+    "PrimeSubscription": "",
+    "Raid": "",
+    "Subscription": ""
 }
