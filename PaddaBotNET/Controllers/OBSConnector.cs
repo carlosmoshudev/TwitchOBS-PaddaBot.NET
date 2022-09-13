@@ -12,21 +12,16 @@ namespace PaddaBotNET.Controllers
         private readonly NameValueCollection config = ConfigurationManager.AppSettings;
         public Task Init() 
         {
+            Console.WriteLine("Conectando a OBS..");
             obs = new ObsWebSocket();
-            try 
-            {
-                obs.Connect
-                (
-                    url: $"{config.Get("WebSocketIP")}:{config.Get("WebSocketPort")}",
-                    password:""
-                );
-                return Task.CompletedTask;
-            } 
-            catch (Exception exception) 
-            {
-                Console.WriteLine(exception.Message);
-                return Task.FromException(exception);
-            }
+            obs.Connect
+            (
+                url: $"{config.Get("WebSocketIP")}:{config.Get("WebSocketPort")}",
+                password: config.Get("WebSocketPassword")
+            );
+            Console.WriteLine("OBS conectado.");
+            return Task.CompletedTask;
+
         }
         public void Disconnect() => obs?.Disconnect();
         public OBSConnector() { }
