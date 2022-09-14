@@ -1,15 +1,12 @@
-﻿using PaddaBotNET.Models;
+﻿using PaddaBotNET.Controllers;
+using PaddaBotNET.Models;
 using PaddaBotNET.Utils;
-using PaddaBotNET.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Threading;
 
-namespace PaddaBotNET 
-{
-    internal class Program 
-    {
+namespace PaddaBotNET {
+    internal class Program {
         private static TwitchBotConnector bot, streamer;
         private static OBSConnector obs = new OBSConnector();
         private static Dictionary<string, string> defaultMessages;
@@ -22,14 +19,12 @@ namespace PaddaBotNET
             Console.ReadLine();
         }
         private static void CreateBots() {
-            bot = new TwitchBotConnector
-                (
+            bot = new TwitchBotConnector(
                     bot: botAuth.account,
                     oauth: botAuth.token,
                     channel: ConfigurationManager.AppSettings.Get("StreamerChannel")
                 );
-            streamer = new TwitchBotConnector
-                (
+            streamer = new TwitchBotConnector(
                     bot: streamerAuth.account,
                     oauth: streamerAuth.token,
                     channel: ConfigurationManager.AppSettings.Get("StreamerChannel")

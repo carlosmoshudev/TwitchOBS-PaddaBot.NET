@@ -1,46 +1,32 @@
-﻿#region System
+﻿using PaddaBotNET.Controllers;
+using PaddaBotNET.Interfaces;
 using System;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Configuration;
 using System.Collections.Specialized;
-#endregion
-#region TwitchLib
+using System.Configuration;
 using TwitchLib.Client;
-using TwitchLib.Client.Enums;
-using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
-using TwitchLib.PubSub;
-using TwitchLib.PubSub.Events;
 using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Models;
-#endregion
-using PaddaBotNET.Controllers;
-namespace PaddaBotNET.Models 
-{
-    class ChatBots 
-    {
+using TwitchLib.PubSub;
 
+namespace PaddaBotNET.Models {
+    sealed class ChatBots {
         private readonly TwitchClient client;
         private readonly TwitchPubSub pubSub;
-        private readonly BotEvents botEvents;
+        private readonly IBotEventHandler eventHandler;
         private readonly OBSConnector obs;
         private readonly NameValueCollection appSettings = ConfigurationManager.AppSettings;
-        public ChatBots(Credentials credentials, string channel, OBSConnector obs, BotEvents botEvents) 
-        {
-            this.obs        = obs;
-            this.botEvents  = botEvents;
+        public ChatBots(Credentials credentials, OBSConnector obs, IBotEventHandler eventHandler) {
+            this.obs = obs;
+            this.eventHandler = eventHandler;
             ConnectionCredentials botCredentials = new ConnectionCredentials
             (
-                twitchUsername: credentials.account, 
-                twitchOAuth:    credentials.token
+                twitchUsername: credentials.account,
+                twitchOAuth: credentials.token
             );
-            ClientOptions options = new ClientOptions 
-            {
+            ClientOptions options = new ClientOptions {
                 MessagesAllowedInPeriod = int.Parse(appSettings.Get("MessagesAllowed")),
-                ThrottlingPeriod        = TimeSpan.FromSeconds(30)
+                ThrottlingPeriod = TimeSpan.FromSeconds(30)
             };
             WebSocketClient webSocketClient = new WebSocketClient(options);
             client = new TwitchClient(webSocketClient);

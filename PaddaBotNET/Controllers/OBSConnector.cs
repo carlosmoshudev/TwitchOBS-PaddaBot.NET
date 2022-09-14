@@ -1,17 +1,14 @@
-﻿using System;
-using System.Configuration;
+﻿using OBS.WebSocket.NET;
+using System;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Threading.Tasks;
-using OBS.WebSocket.NET;
 
-namespace PaddaBotNET.Controllers 
-{
-    internal class OBSConnector 
-    {
+namespace PaddaBotNET.Controllers {
+    internal sealed class OBSConnector {
         private ObsWebSocket obs;
         private readonly NameValueCollection config = ConfigurationManager.AppSettings;
-        public Task Init() 
-        {
+        public Task Init() {
             Console.WriteLine("Conectando a OBS..");
             obs = new ObsWebSocket();
             obs.Connect
