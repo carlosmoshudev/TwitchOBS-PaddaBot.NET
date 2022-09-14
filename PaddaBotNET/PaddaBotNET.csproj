@@ -192,6 +192,9 @@
   <ItemGroup>
     <Compile Include="Controllers\OBSConnector.cs" />
     <Compile Include="Controllers\TwitchBotConnector.cs" />
+    <Compile Include="Events\BotAccountEvents.cs" />
+    <Compile Include="Interfaces\IBotEventHandler.cs" />
+    <Compile Include="Models\BotEvents.cs" />
     <Compile Include="Models\ChatBots.cs" />
     <Compile Include="Models\Credentials.cs" />
     <Compile Include="Program.cs" />
