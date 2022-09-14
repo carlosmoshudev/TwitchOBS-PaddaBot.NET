@@ -18,29 +18,31 @@ using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Models;
 #endregion
 using PaddaBotNET.Controllers;
-namespace PaddaBotNET.Models {
+namespace PaddaBotNET.Models 
+{
     class ChatBots 
     {
 
         private readonly TwitchClient client;
         private readonly TwitchPubSub pubSub;
+        private readonly BotEvents botEvents;
         private readonly OBSConnector obs;
         private readonly NameValueCollection appSettings = ConfigurationManager.AppSettings;
-        public ChatBots(Credentials credentials, string channel, OBSConnector obs) 
+        public ChatBots(Credentials credentials, string channel, OBSConnector obs, BotEvents botEvents) 
         {
-            this.obs = obs;
-            var botCredentials = new ConnectionCredentials
+            this.obs        = obs;
+            this.botEvents  = botEvents;
+            ConnectionCredentials botCredentials = new ConnectionCredentials
             (
                 twitchUsername: credentials.account, 
                 twitchOAuth:    credentials.token
             );
-            var options = new ClientOptions 
+            ClientOptions options = new ClientOptions 
             {
-                MessagesAllowedInPeriod = 
-                    int.Parse(appSettings.Get("MessagesAllowed")),
+                MessagesAllowedInPeriod = int.Parse(appSettings.Get("MessagesAllowed")),
                 ThrottlingPeriod        = TimeSpan.FromSeconds(30)
             };
-            var webSocketClient = new WebSocketClient(options);
+            WebSocketClient webSocketClient = new WebSocketClient(options);
             client = new TwitchClient(webSocketClient);
             pubSub = new TwitchPubSub();
             pubSub.Connect();
